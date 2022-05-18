@@ -5,6 +5,7 @@ const express = require('express');
 const logger = require('morgan');
 const path = require('path');
 const methodOverride =  require('method-override'); // Passe para poder usar os métodos PUT e DELETE
+const session = require('express-session');
 
 // ************ express() - (don't touch) ************
 const app = express();
@@ -16,6 +17,15 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(cookieParser());
 app.use(methodOverride('_method')); // Para poder passar o method="POST" no formulário por PUT e DELETE
+app.use( //17-05-2022: Incluído na aula ao Vivo com o professor Sergio Moura.
+  session({ //gera um cookie connect.sid ? cria um objeto session na req.?
+    secret: 'SEGREDO',
+    resave: 'yes',
+    saveUninitialized: true,
+    // store: existe alguma opção (ver na documentação), na qual salva as informações da session.
+  })
+);
+//objetivo é passar a salvar as buscas na session e não mais nos cookies. Sei lá qual a utilidade disso.
 
 // ************ Template Engine - (don't touch) ************
 app.set('view engine', 'ejs');
